@@ -106,6 +106,12 @@ IwrProjectGenerator.prototype.askBrowser = function() {
       name: 'useLess',
       message: 'Use less?',
       default: true
+    },
+    {
+      type: 'confirm',
+      name: 'usePolymer',
+      message: 'Use polymer?',
+      default: true
     }
   ];
 
