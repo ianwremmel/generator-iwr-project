@@ -99,12 +99,6 @@ IwrProjectGenerator.prototype.askBrowser = function() {
       type: 'confirm',
       name: 'useBower',
       message: 'Will this project need to use bower modules?',
-      default: false
-    },
-    {
-      type: 'confirm',
-      name: 'useBrowserify',
-      message: 'Use browserify?',
       default: true
     },
     {
@@ -117,6 +111,17 @@ IwrProjectGenerator.prototype.askBrowser = function() {
 
   this.prompt(prompts, function(props) {
     _.assign(this, props);
+
+    if (this.useBrowser && !this.isLibrary) {
+      this.template('src/index.js', 'src/app/index.js');
+      this.template('src/_jshintrc', 'src/app/.jshintrc');
+      this.template('server/_index.js', 'src/server/index.js');
+      this.template('server/_jshintrc', 'src/server/.jshintrc');
+    }
+    else {
+      this.template('server/_index.js', 'src/index.js');
+      this.template('server/_jshintrc', 'src/.jshintrc');
+    }
 
     done();
   }.bind(this));

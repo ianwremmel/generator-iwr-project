@@ -1,7 +1,7 @@
 {
   "name": "<%= _.slugify(appname) %>",
-  "version": "0.0.0",<$ if () { %>
-  "main": "dist/<%= _.slugify(appname) %>.js", <% } %>
+  "version": "0.0.0",
+  "main": "dist/<%= _.slugify(appname) %>.js",
   "dependencies": {},
   "authors": [
     "Ian Remmel <design@ianwremmel.com>"

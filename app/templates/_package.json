@@ -3,16 +3,16 @@
   "version": "0.0.0",
   "main": "src/index.js",
   "dependencies": {<% if (useBower) { %>
-    "bower": "^1.3.9",<% } %><% if (useBrowserify) { %>
+    "bower": "^1.3.9",<% } %><% if (useBrowser) { %>
     "browserify": "^5.11.0",<% } %><% if (this.unitTests || this.integrationTests || this.acceptanceTests) { %>
-    "chai": "^1.9.1",<% } %><% if (useBrowserify) { %>
+    "chai": "^1.9.1",<% } %><% if (useBrowser) { %>
     "debowerify": "^0.8.1",<% } %>
     "grunt": "^0.4.5",
     "grunt-bump": "0.0.15",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-jscs": "^0.7.0",
-    "grunt-shell": "^1.0.1",<% if (useBrowserify) { %>
+    "grunt-shell": "^1.0.1",<% if (useBrowser) { %>
     "jshint-stylish": "^0.4.0",<% } %><% if (unitTests || integrationTests) { %>
     "karma": "^0.12.23",
     "karma-browserify": "^0.2.1",
