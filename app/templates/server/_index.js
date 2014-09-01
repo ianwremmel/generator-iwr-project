@@ -68,14 +68,18 @@ if (app.get('env') === 'development') {
 // -------------------
 app.use(compression());
 
-// TODO configure static routes
-
+// Enable static routes
+// --------------------
+<% if (useBower) { %>
+app.use(express.static('bower_components'));
+<% } %>
 // Configure development server to support pushState routes.
 // --------------------------------------------------------
 // (production server should do this in nginx)
 
 if (app.get('env') !== 'production') {
-  app.get('/*', function(req, res) {
+  // TODO make sure this route 404s if there is a file extension.
+  app.get(/\/.*/, function(req, res) {
     res.sendfile('index.html', {
       root: path.join(__dirname, '../app')
     });
