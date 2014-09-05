@@ -133,6 +133,11 @@ IwrProjectGenerator.prototype.askBrowser = function() {
       this.template('server/_jshintrc', 'src/.jshintrc');
     }
 
+    if (this.useLess) {
+      this.mkdir('src/app/styles');
+      this.write('src/app/styles/' + _.slugify(this.appname) + '.less', '');
+    }
+
     done();
   }.bind(this));
 };

@@ -10,20 +10,24 @@
     "newrelic": "^1.10.3",<% } %>
     "morgan": "^1.2.3",
   },<% } %>
-  "devDependencies": {<% if (useBower) { %>
+  "devDependencies": {<% if (this.useBrowser && !this.isLibrary) { %>
+    "autoprefixer": "^3.0.0",<% } %><% if (useBower) { %>
     "bower": "^1.3.9",<% } %><% if (useBrowser) { %>
     "browserify": "^5.11.0",<% } %><% if (this.useBrowser && !this.isLibrary) { %>
     "browserify-middleware": "^3.0.1",<% } %><% if (this.unitTests || this.integrationTests || this.acceptanceTests) { %>
     "chai": "^1.9.1",<% } %><% if (useBrowser) { %>
     "debowerify": "^0.8.1",<% } %><% if (this.useBrowser && !this.isLibrary) { %>
-    "envify": "^3.0.0",<% } %>
-    "grunt": "^0.4.5",
+    "envify": "^3.0.0",
+    "express-autoprefixer": "^2.1.0",<% } %>
+    "grunt": "^0.4.5",<% if (this.useBrowser && !this.isLibrary) { %>
+    "grunt-autoprefixer": "^1.0.1",<% } %>
     "grunt-bump": "0.0.15",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-cli": "^0.1.13",<% if (this.useBrowser && !this.isLibrary) { %>
+    "grunt-contrib-clean": "^0.6.0",<% } %>
+    "grunt-contrib-jshint": "^0.10.0",<% if (this.useBrowser && !this.isLibrary) { %>
+    "grunt-contrib-uglify": "^0.5.1",<% } %>
     "grunt-jscs": "^0.7.0",<% if (this.useBrowser && !this.isLibrary) { %>
-    "grunt-nodemon": "^0.3.0",<% } %>
-    "grunt-shell": "^1.0.1",<% if (useBrowser) { %>
+    "grunt-nodemon": "^0.3.0",<% } %><% if (useBrowser) { %>
     "jshint-stylish": "^0.4.0",<% } %><% if (unitTests || integrationTests) { %>
     "karma": "^0.12.23",
     "karma-browserify": "^0.2.1",
@@ -34,7 +38,8 @@
     "karma-safari-launcher": "^0.1.1",<% } %><% if (this.useBrowser && !this.isLibrary) { %>
     "less-middleware": "^1.0.4",<% } %>
     "load-grunt-tasks": "^0.6.0",<% if (this.unitTests || this.integrationTests || this.acceptanceTests) { %>
-    "mocha": "^1.21.4",
+    "mocha": "^1.21.4",<% if (this.useBrowser && !this.isLibrary) { %>,
+    "requireify": "^0.2.1",<% } %>
     "sinon": "^1.10.3",<% } %>
     "time-grunt": "^1.0.0"<% if (this.useBrowser && !this.isLibrary) { %>,
     "uglifyify": "^2.5.0"<% } %>

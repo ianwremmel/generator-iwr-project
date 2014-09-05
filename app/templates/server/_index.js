@@ -48,6 +48,7 @@ if (app.get('env') === 'development') {
     noParse: ['jquery'],
     transform: [
       'envify',
+      'requireify'
     ],
     debug: true
   }));
@@ -55,7 +56,8 @@ if (app.get('env') === 'development') {
   app.use('/scripts', browserify('src/app/scripts/', {
     noParse: ['jquery'],
     transform: [
-      'envify'
+      'envify',
+      'requireify'
     ],
     debug: true
   }));
@@ -65,9 +67,23 @@ if (app.get('env') === 'development') {
 // --------------
 if (app.get('env') === 'development') {
   var less = require('less-middleware');
-  app.use(less(path.join(__dirname, '../app/styles'), {
-    dest: path.join(__dirname, '../../.tmp/static')
+
+  var cssCacheDir = '.tmp';
+  app.use(less('src/app'), {
+    dest: cssCacheDir
+    compiler: {
+      sourceMap: true
+    }
   }));
+
+  var autoprefixer = require('express-autoprefixer');
+
+  app.use(autoprefixer({
+    browsers: 'last 1 versions',
+    map: true
+  });
+
+  app.use(express.static(cssCacheDir));
 }
 
 // TODO prevent directory browsing
@@ -86,10 +102,10 @@ app.use('/bower_components', express.static('bower_components'));<% } %>
 // (production server should do this in nginx)
 
 if (app.get('env') !== 'production') {
-  // TODO make sure this route 404s if there is a file extension.
+  // TODO make sure this routes 404s if there is a file extension.
   app.get(/\/.*/, function(req, res) {
     res.render('index.html', {
-      root: path.join(__dirname, '../app')
+      root: 'src/app'
     });
   });
 }
