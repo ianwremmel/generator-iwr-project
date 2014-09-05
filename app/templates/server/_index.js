@@ -1,15 +1,28 @@
 'use strict';
-
-// TODO add a development-mode https instance)
+<% if (useNewrelic) { %>
+var newrelic = require('newrelic');
+<% } %>
+// TODO add https
 
 var http = require('http');
 var path = require('path');
 
 var express = require('express');
-var morgan = require('morgan');
+// Engines
+var cons = require('consolidate');
+
+// Middleware
 var compression = require('compression');
+var morgan = require('morgan');
 
 var app = express();
+
+// Configure Templating <% if (useNewrelic) { %>
+app.locals.newrelic = newrelic;<% } %>
+app.engine('html', cons.lodash);
+
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, '../app'));
 
 // Configure Logging
 // --------------
@@ -26,17 +39,15 @@ else {
 // Configure Browserify
 // --------------------
 
+// TODO if env === 'test', add uglifyify
 if (app.get('env') === 'development') {
   var browserify = require('browserify-middleware');
 
-  <% if (usePolymer) { %>
+  // TODO add uglifyify for env===test <% if (usePolymer) { %>
   app.use('/elements', browserify('src/app/elements/', {
     noParse: ['jquery'],
     transform: [
       'envify',
-      // TODO configure uglifyify to only remove sections; don't minify or
-      // obfuscate
-      'uglifyify'
     ],
     debug: true
   }));
@@ -44,10 +55,7 @@ if (app.get('env') === 'development') {
   app.use('/scripts', browserify('src/app/scripts/', {
     noParse: ['jquery'],
     transform: [
-      'envify',
-      // TODO configure uglifyify to only remove sections; don't minify or
-      // obfuscate
-      'uglifyify'
+      'envify'
     ],
     debug: true
   }));
@@ -68,11 +76,11 @@ if (app.get('env') === 'development') {
 // -------------------
 app.use(compression());
 
+<% if (useBower) { %>
 // Enable static routes
 // --------------------
-<% if (useBower) { %>
-app.use(express.static('bower_components'));
-<% } %>
+app.use('/bower_components', express.static('bower_components'));<% } %>
+
 // Configure development server to support pushState routes.
 // --------------------------------------------------------
 // (production server should do this in nginx)
@@ -80,7 +88,7 @@ app.use(express.static('bower_components'));
 if (app.get('env') !== 'production') {
   // TODO make sure this route 404s if there is a file extension.
   app.get(/\/.*/, function(req, res) {
-    res.sendfile('index.html', {
+    res.render('index.html', {
       root: path.join(__dirname, '../app')
     });
   });

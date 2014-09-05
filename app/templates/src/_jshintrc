@@ -7,7 +7,7 @@
   "immed": true,
   "indent": 2,
   "latedef": "nofunc",
-  "newcap": true,
+  "newcap": <%= !usePolymer %>,
   "noarg": true,
   "noempty": true,
   "nonew": true,
@@ -19,5 +19,8 @@
   "esnext": true,
 
   "browser": true,
-  "node": true
+  "node": true<% if (usePolymer) { %>,
+  "globals": {
+    "Polymer": false
+  }<% } %>
 }
