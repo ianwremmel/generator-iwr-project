@@ -118,6 +118,10 @@ IwrProjectGenerator.prototype.askBrowser = function() {
   this.prompt(prompts, function(props) {
     _.assign(this, props);
 
+    if (this.polymer) {
+      this.useBower = true;
+    }
+
     if (this.useBrowser && !this.isLibrary) {
       this.template('src/index.js', 'src/app/index.js');
       this.template('src/_jshintrc', 'src/app/.jshintrc');
