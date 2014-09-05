@@ -51,6 +51,12 @@ IwrProjectGenerator.prototype.askBasic = function() {
       name: 'username',
       message: 'What is your GitHub username?',
       default: 'ianwremmel'
+    },
+    {
+      type: 'confirm',
+      name: 'useNewrelic',
+      message: 'Should this project integrate New Relic?',
+      default: true
     }
   ], function(props) {
     _.assign(this, props);

@@ -109,7 +109,7 @@ module.exports = (grunt) ->
         files:
           '<%%= config.dist %>/scripts/<%= _.slugify(appname) %>.min.js': '<%%= config.dist %>/scripts/<%= _.slugify(appname) %>.js'
 
-    <% } >
+    <% } %>
 
   # Public Tasks
   # ------------
