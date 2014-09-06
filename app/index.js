@@ -168,6 +168,11 @@ IwrProjectGenerator.prototype.setupTest = function() {
   if (this.unitTests || this.integrationTests || this.acceptanceTests) {
     this.mkdir('test');
 
+    if (this.unitTests || this.integrationTests) {
+      this.template('_karma.conf.coffee', 'karma.conf.coffee');
+      this.template('_karma.sauce.coffee', 'karma.sauce.coffee');
+    }
+
     if (this.unitTests) {
       this.mkdir('test/unit');
       this.mkdir('test/unit/fixtures');

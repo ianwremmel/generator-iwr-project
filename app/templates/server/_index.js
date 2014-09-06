@@ -69,8 +69,8 @@ if (app.get('env') === 'development') {
   var less = require('less-middleware');
 
   var cssCacheDir = '.tmp';
-  app.use(less('src/app'), {
-    dest: cssCacheDir
+  app.use(less('src/app', {
+    dest: cssCacheDir,
     compiler: {
       sourceMap: true
     }
@@ -81,7 +81,7 @@ if (app.get('env') === 'development') {
   app.use(autoprefixer({
     browsers: 'last 1 versions',
     map: true
-  });
+  }));
 
   app.use(express.static(cssCacheDir));
 }

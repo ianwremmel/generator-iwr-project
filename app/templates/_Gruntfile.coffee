@@ -12,7 +12,13 @@ module.exports = (grunt) ->
       app: 'src/app'
       server: 'src/server'<% } %>
       test: 'test'
-      tmp:  '.tmp'<% if (!useBrowser || !isLibrary) { %>
+      tmp:  '.tmp'<% if unitTests || integrationTests || acceptanceTests { %>
+
+    clean:
+      tmp:
+        src: [
+          '<%%= config.tmp %>'
+        ]<% } %><% if (!useBrowser || !isLibrary) { %>
 
     # Serve
     # -----
@@ -51,7 +57,7 @@ module.exports = (grunt) ->
           jshintrc: '<%%= config.src %>/.jshintrc'
         files:
           src: [
-            '<%%= config.src %>/scripts/**/*.js'
+            '<%%= config.src %>/**/*.js'
           ]<% } %><% if (unitTests) { %>
       'test-unit':
         options:
@@ -81,7 +87,53 @@ module.exports = (grunt) ->
       all: [
         '<%%= config.src %>/**/*.js'
         '<%%= config.test %>/**/*.js'
-      ] <% if (useBrowser && !isLibrary) { %>
+      ]<% if (unitTests || integrationTests) { %>
+
+    # Tests
+    # -----
+
+    mocha_istanbul:
+      options:
+        coverage:true
+        mask: '**/*.js'
+        root: '<%%= config.src %>'
+        reportFormats: ['lcov']<% if (unitTests) { %>
+      unit:
+        src: '<%%= config.test %>/unit/spec'
+    <% } %><% if (integrationTests) { %>
+      integration:
+        src: '<%%= config.test %>/integration/spec'<% } %><% if (useBrowser) { %>
+
+    karma:
+      options:
+        configFile: 'karma.sauce.coffee'
+      local:
+        options:
+          configFile: 'karma.conf.coffee'
+          singleRun: true
+      debug:
+        options:
+          configFile: 'karma.conf.coffee'
+          singleRun: false
+      # Need to break integration accross multiple runs due to karma
+      # handling sauce labs concurrency poorly
+      'sauce-chrome':
+        options:
+          browsers: [
+            'sl_chrome_35_osx9'
+            'sl_chrome_37_windows7'
+          ]
+      'sauce-firefox':
+        options:
+          browsers: [
+            'sl_firefox_30_osx9'
+            'sl_firefox_31_windows7'
+          ]
+      'sauce-native':
+        browsers: [
+          'sl_safari_7_osx9'
+          'sl_ie_11_windows7'
+        ]<% } %><% } %><% if (useBrowser && !isLibrary) { %>
 
     # Build
     # -----
@@ -117,4 +169,18 @@ module.exports = (grunt) ->
   grunt.registerTask 'static-analysis', [
     'jshint'
     'jscs'
+  ]
+
+  grunt.registerTask 'test', [
+    'static-analysis'
+    'mocha_istanbul'
+    'karma:sauce-chrome'
+    'karma:sauce-firefox'
+    'karma:sauce-native'
+  ]
+
+  grunt.registerTask 'default', [
+    'static-analysis'
+    'mocha_istanbul'
+    'karma:local'
   ]
