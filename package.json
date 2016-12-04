@@ -23,9 +23,9 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "lodash": "^2.4.1",
-    "shelljs": "^0.3.0",
-    "yeoman-generator": "^0.17.0"
+    "lodash": "^4.17.2",
+    "shelljs": "^0.7.5",
+    "yeoman-generator": "^0.24.1"
   },
   "devDependencies": {
     "mocha": "*"
