@@ -1,5 +1,7 @@
 # generator-iwr-project [![Build Status](https://secure.travis-ci.org/ianwremmel/generator-iwr-project.png?branch=master)](https://travis-ci.org/ianwremmel/generator-iwr-project)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ianwremmel/generator-iwr-project.svg)](https://greenkeeper.io/)
+
 > [Yeoman](http://yeoman.io) generator
 
 
